@@ -3,7 +3,6 @@
   "short_name": "三条民謡",
   "start_url": "./",
   "display": "standalone",
-  "background_color": "#fbf8f2",
-  "theme_color": "#7a1f2b",
-  "description": "三条民謡保存会の公式ホームページ"
+  "background_color": "#fbf7ef",
+  "theme_color": "#7a1f2b"
 }

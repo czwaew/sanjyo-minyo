@@ -1,50 +1,13 @@
-const menuButton = document.getElementById("menuButton");
-const globalNav = document.getElementById("globalNav");
-const contactForm = document.getElementById("contactForm");
-
-menuButton.addEventListener("click", () => {
-  const isOpen = globalNav.classList.toggle("open");
-  menuButton.setAttribute("aria-expanded", String(isOpen));
-  menuButton.textContent = isOpen ? "×" : "☰";
-});
-
-globalNav.querySelectorAll("a").forEach((link) => {
-  link.addEventListener("click", () => {
-    globalNav.classList.remove("open");
-    menuButton.setAttribute("aria-expanded", "false");
-    menuButton.textContent = "☰";
-  });
-});
-
-document.getElementById("year").textContent = new Date().getFullYear();
-
-contactForm.addEventListener("submit", (event) => {
-  event.preventDefault();
-
-  // 実際に使用するメールアドレスへ変更してください。
-  const destination = "example@example.com";
-  const name = document.getElementById("name").value.trim();
-  const email = document.getElementById("email").value.trim();
-  const category = document.getElementById("category").value;
-  const message = document.getElementById("message").value.trim();
-
-  const subject = `【三条民謡保存会】${category}`;
-  const body = [
-    `お名前：${name}`,
-    `メールアドレス：${email}`,
-    `お問い合わせ項目：${category}`,
-    "",
-    "お問い合わせ内容：",
-    message
-  ].join("\n");
-
-  location.href = `mailto:${destination}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
-});
-
-if ("serviceWorker" in navigator) {
-  window.addEventListener("load", () => {
-    navigator.serviceWorker.register("sw.js").catch((error) => {
-      console.log("Service Worker registration failed:", error);
-    });
-  });
-}
+const CONTACT_EMAIL="example@example.com";
+const menu=document.getElementById("menu"),nav=document.getElementById("nav");
+menu.onclick=()=>{nav.classList.toggle("open");menu.textContent=nav.classList.contains("open")?"×":"☰"};
+nav.querySelectorAll("a").forEach(a=>a.onclick=()=>nav.classList.remove("open"));
+document.getElementById("year").textContent=new Date().getFullYear();
+document.getElementById("newsList").innerHTML=NEWS_ITEMS.map(x=>`<article class="news"><time>${x.date}</time><span class="tag">${x.category}</span><h3>${x.title}</h3></article>`).join("");
+document.getElementById("eventList").innerHTML=EVENT_ITEMS.map(x=>`<article class="event"><time>${x.date}</time><div><h3>${x.title}</h3><p><b>会場：</b>${x.place}</p><p>${x.detail}</p></div></article>`).join("");
+document.getElementById("form").onsubmit=e=>{e.preventDefault();const n=name.value.trim(),m=email.value.trim(),c=category.value,t=message.value.trim(),s=`【三条民謡保存会】${c}`,b=`お名前：${n}\nメールアドレス：${m}\nお問い合わせ項目：${c}\n\nお問い合わせ内容：\n${t}`;location.href=`mailto:${CONTACT_EMAIL}?subject=${encodeURIComponent(s)}&body=${encodeURIComponent(b)}`};
+const modal=document.getElementById("modal"),large=document.getElementById("large"),caption=document.getElementById("caption");
+document.querySelectorAll(".gallery button").forEach(b=>b.onclick=()=>{large.src=b.querySelector("img").src;caption.textContent=b.dataset.title;modal.classList.add("open")});
+document.getElementById("close").onclick=()=>modal.classList.remove("open");modal.onclick=e=>{if(e.target===modal)modal.classList.remove("open")};
+setInterval(()=>{const p=document.createElement("i");p.className="petal";p.style.left=Math.random()*100+"vw";p.style.animationDuration=8+Math.random()*7+"s";p.style.setProperty("--drift",-120+Math.random()*240+"px");document.body.appendChild(p);setTimeout(()=>p.remove(),16000)},1200);
+if("serviceWorker"in navigator)addEventListener("load",()=>navigator.serviceWorker.register("sw.js"));
